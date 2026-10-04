@@ -26,6 +26,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+
 /**
  * Test for mapping to DOM Document.
  */
@@ -34,7 +36,7 @@ public class DocumentService implements IDocumentService {
     private DocumentBuilderFactory documentBuilderFactory;
 
     public DocumentService() {
-        documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory = SecureDocumentBuilderFactory.newInstance();
     }
 
     /** {@inheritDoc}*/

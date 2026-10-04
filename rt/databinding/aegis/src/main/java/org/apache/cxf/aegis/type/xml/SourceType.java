@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
 import org.apache.cxf.aegis.Context;
 import org.apache.cxf.aegis.DatabindingException;
 import org.apache.cxf.aegis.type.AegisType;
@@ -102,8 +103,7 @@ public class SourceType extends AegisType {
     }
 
     protected XMLReader createXMLReader() throws SAXException, ParserConfigurationException {
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setNamespaceAware(true);
+        SAXParserFactory spf = SecureSAXParserFactory.newNSInstance();
         // Disable DTDs
         spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         return spf.newSAXParser().getXMLReader();

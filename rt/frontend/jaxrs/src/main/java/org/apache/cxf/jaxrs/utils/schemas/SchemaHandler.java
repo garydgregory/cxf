@@ -44,6 +44,7 @@ import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
+import org.apache.commons.xml.secure.SecureSchemaFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.catalog.OASISCatalogManager;
@@ -92,7 +93,7 @@ public class SchemaHandler {
 
     public static Schema createSchema(List<String> locations, String catalogLocation, final Bus bus) {
 
-        SchemaFactory factory = SchemaFactory.newInstance(Constants.URI_2001_SCHEMA_XSD);
+        SchemaFactory factory = SecureSchemaFactory.newInstance(Constants.URI_2001_SCHEMA_XSD);
         setSecureProperties(factory);
         try {
             List<Source> sources = new ArrayList<>();

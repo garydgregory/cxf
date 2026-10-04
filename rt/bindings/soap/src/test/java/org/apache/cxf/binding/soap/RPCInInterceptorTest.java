@@ -23,9 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.binding.soap.interceptor.RPCInInterceptor;
 import org.apache.cxf.jaxb.JAXBDataBinding;
 import org.apache.cxf.message.Message;
@@ -78,7 +78,7 @@ public class RPCInInterceptorTest extends TestBase {
     public void testInterceptorRPCLitOutbound() throws Exception {
         RPCInInterceptor interceptor = new RPCInInterceptor();
 
-        soapMessage.setContent(XMLStreamReader.class, XMLInputFactory.newInstance().createXMLStreamReader(
+        soapMessage.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance().createXMLStreamReader(
                 getTestStream(getClass(), "/rpc-resp.xml")));
         soapMessage.put(Message.REQUESTOR_ROLE, Boolean.TRUE);
 
@@ -98,7 +98,7 @@ public class RPCInInterceptorTest extends TestBase {
     @Test
     public void testInterceptorRPCLitInbound() throws Exception {
         RPCInInterceptor interceptor = new RPCInInterceptor();
-        soapMessage.setContent(XMLStreamReader.class, XMLInputFactory.newInstance().createXMLStreamReader(
+        soapMessage.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance().createXMLStreamReader(
                 getTestStream(getClass(), "/rpc-req.xml")));
 
         interceptor.handleMessage(soapMessage);

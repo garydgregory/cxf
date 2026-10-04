@@ -33,6 +33,7 @@ import javax.xml.stream.XMLStreamReader;
 import org.w3c.dom.Document;
 
 import jakarta.xml.soap.SOAPMessage;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.helpers.DOMUtils.NullResolver;
@@ -569,12 +570,11 @@ public class SamlTokenTest extends AbstractSecurityTest {
         byte[] docbytes = getMessageBytes(doc);
         XMLStreamReader reader = StaxUtils.createXMLStreamReader(new ByteArrayInputStream(docbytes));
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
 
         dbf.setValidating(false);
         dbf.setIgnoringComments(false);
         dbf.setIgnoringElementContentWhitespace(true);
-        dbf.setNamespaceAware(true);
 
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setEntityResolver(new NullResolver());

@@ -30,6 +30,7 @@ import javax.xml.transform.dom.DOMSource;
 
 import org.w3c.dom.Document;
 
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.common.classloader.ClassLoaderUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
@@ -61,12 +62,7 @@ public abstract class AbstractXSLTInterceptor extends AbstractPhaseInterceptor<M
             }
             Document doc = StaxUtils.read(xsltStream);
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            try {
-                transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            } catch (javax.xml.transform.TransformerConfigurationException ex) {
-                //
-            }
+            TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
 
             xsltTemplate = transformerFactory.newTemplates(new DOMSource(doc));
         } catch (TransformerConfigurationException | XMLStreamException e) {

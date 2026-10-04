@@ -29,7 +29,6 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
@@ -44,6 +43,8 @@ import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceProvider;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.staxutils.StaxSource;
 import org.apache.cxf.staxutils.StaxUtils;
 
@@ -99,8 +100,7 @@ public abstract class AbstractSourcePayloadProvider implements SourceProvider {
             return new DOMSource(StaxUtils.read(greetMeInputStream));
         } else if (StaxSource.class.equals(class1)) {
             if (doneStax) {
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                spf.setNamespaceAware(true);
+                SAXParserFactory spf = SecureSAXParserFactory.newNSInstance();
                 XMLReader reader = spf.newSAXParser().getXMLReader();
                 
                 return new SAXSource(reader, new InputSource(greetMeInputStream));
@@ -119,9 +119,7 @@ public abstract class AbstractSourcePayloadProvider implements SourceProvider {
 
     public static String getSourceAsString(Source s) throws Exception {
         try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            Transformer transformer = transformerFactory.newTransformer();
+            Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             try (Writer out = new StringWriter()) {

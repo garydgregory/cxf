@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -33,6 +32,7 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.staxutils.StaxUtils;
 
@@ -207,12 +207,7 @@ public final class XPathAssert {
      * addNamespace().
      */
     public static XPath createXPath(Map<String, String> namespaces) throws Exception {
-        XPathFactory xpathFactory = XPathFactory.newInstance();
-        try {
-            xpathFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        } catch (javax.xml.xpath.XPathFactoryConfigurationException ex) {
-            // ignore
-        }
+        XPathFactory xpathFactory = SecureXPathFactory.newInstance();
         XPath xpath = xpathFactory.newXPath();
 
         if (namespaces != null) {

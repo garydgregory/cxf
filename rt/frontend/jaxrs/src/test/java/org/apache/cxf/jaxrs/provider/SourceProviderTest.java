@@ -40,6 +40,8 @@ import org.w3c.dom.Document;
 
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.ext.MessageBodyReader;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.apache.cxf.jaxrs.ext.MessageContextImpl;
 import org.apache.cxf.jaxrs.impl.MetadataMap;
@@ -103,8 +105,7 @@ public class SourceProviderTest {
         Source source = p.readFrom(Source.class,
                    null, null, null, null, is);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         transformerFactory.newTransformer().transform(source, new StreamResult(bos));
         assertTrue(bos.toString().contains("test2"));
     }
@@ -155,7 +156,7 @@ public class SourceProviderTest {
     }
 
     private DOMSource createDomSource() throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory factory = SecureDocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         builder = factory.newDocumentBuilder();
         return new DOMSource(builder.parse(new ByteArrayInputStream("<test/>".getBytes())));

@@ -51,7 +51,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
@@ -67,8 +66,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
@@ -98,6 +95,8 @@ import com.sun.tools.xjc.reader.internalizer.InternalizationLogic;
 import com.sun.tools.xjc.reader.xmlschema.parser.LSInputSAXWrapper;
 import com.sun.tools.xjc.reader.xmlschema.parser.XMLSchemaInternalizationLogic;
 
+import org.apache.commons.xml.secure.SecureSchemaFactory;
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.catalog.OASISCatalogManager;
 import org.apache.cxf.catalog.OASISCatalogManagerHelper;
@@ -553,13 +552,7 @@ public class JAXBDataBinding implements DataBindingProfile {
                 if (StringUtils.isEmpty(s)) {
                     Document d = StaxUtils.read(r);
 
-                    XPathFactory xpathFactory = XPathFactory.newInstance();
-                    try {
-                        xpathFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                    } catch (javax.xml.xpath.XPathFactoryConfigurationException ex) {
-                        // ignore
-                    }
-                    XPath p = xpathFactory.newXPath();
+                    XPath p = SecureXPathFactory.newInstance().newXPath();
                     p.setNamespaceContext(new W3CNamespaceContext(d.getDocumentElement()));
                     XPathExpression xpe = p.compile(d.getDocumentElement().getAttribute("node"));
                     for (XmlSchema schema : schemas.getXmlSchemas()) {
@@ -1066,13 +1059,7 @@ public class JAXBDataBinding implements DataBindingProfile {
                                String uri,
                                final OASISCatalogManager catalog,
                                final SchemaCollection schemaCollection) throws ToolException {
-        SchemaFactory schemaFact = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        try {
-            schemaFact.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
-            LOG.log(Level.WARNING, "The property '" + XMLConstants.FEATURE_SECURE_PROCESSING
-                + "' is not supported.");
-        }
+        SchemaFactory schemaFact = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         schemaFact.setResourceResolver(new LSResourceResolver() {
             public LSInput resolveResource(String type,
                                            String namespaceURI,

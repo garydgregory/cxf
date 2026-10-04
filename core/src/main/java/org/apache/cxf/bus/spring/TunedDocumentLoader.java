@@ -43,6 +43,7 @@ import org.xml.sax.XMLReader;
 
 import com.sun.xml.fastinfoset.stax.StAXDocumentParser;
 
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
 import org.apache.cxf.common.classloader.ClassLoaderUtils;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.staxutils.StaxUtils;
@@ -80,8 +81,8 @@ class TunedDocumentLoader extends DefaultDocumentLoader {
             nsasaxParserFactory = (SAXParserFactory)cls.getDeclaredConstructor().newInstance();
         } catch (Throwable e) {
             //woodstox not found, use any other Stax parser
-            saxParserFactory = SAXParserFactory.newInstance();
-            nsasaxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory = SecureSAXParserFactory.newInstance();
+            nsasaxParserFactory = SecureSAXParserFactory.newInstance();
         }
 
         try {

@@ -58,6 +58,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.helpers.HttpHeaderHelper;
 import org.mozilla.javascript.Context;
@@ -396,8 +398,7 @@ public class JsXMLHttpRequest extends ScriptableObject {
                     || contentType.endsWith("+xml"))) {
 
                 try {
-                    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-                    documentBuilderFactory.setNamespaceAware(true);
+                    DocumentBuilderFactory documentBuilderFactory = SecureDocumentBuilderFactory.newNSInstance();
                     DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
                     ByteArrayInputStream bais = new ByteArrayInputStream(responseBytes);
                     InputSource inputSource = new InputSource(bais);
@@ -450,8 +451,7 @@ public class JsXMLHttpRequest extends ScriptableObject {
         StreamResult result = new StreamResult(baos);
         DOMSource source = new DOMSource(node);
         try {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
             transformerFactory.newTransformer().transform(source, result);
         } catch (TransformerException | TransformerFactoryConfigurationError e) {
             throw new RuntimeException(e);

@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import jakarta.xml.bind.JAXBContext;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.Binding;
@@ -97,7 +97,7 @@ public class DocLiteralInInterceptorTest {
         //WrappedInInterceptor interceptor = new WrappedInInterceptor();
         DocLiteralInInterceptor interceptor = new DocLiteralInInterceptor();
 
-        message.setContent(XMLStreamReader.class, XMLInputFactory.newInstance()
+        message.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance()
             .createXMLStreamReader(getTestStream(getClass(), "resources/GreetMeDocLiteralReq.xml")));
         XMLStreamReader reader = message.getContent(XMLStreamReader.class);
         // skip the start element of soap body
@@ -123,7 +123,7 @@ public class DocLiteralInInterceptorTest {
         setUpUsingDocLit();
 
         DocLiteralInInterceptor interceptor = new DocLiteralInInterceptor();
-        message.setContent(XMLStreamReader.class, XMLInputFactory.newInstance()
+        message.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance()
             .createXMLStreamReader(getTestStream(getClass(), "resources/sayHiDocLitBareReq.xml")));
         XMLStreamReader reader = message.getContent(XMLStreamReader.class);
         // skip the start element of soap body
@@ -150,7 +150,7 @@ public class DocLiteralInInterceptorTest {
         setUpUsingDocLit();
 
         DocLiteralInInterceptor interceptor = new DocLiteralInInterceptor();
-        message.setContent(XMLStreamReader.class, XMLInputFactory.newInstance()
+        message.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance()
             .createXMLStreamReader(getTestStream(getClass(), "resources/bareNoParamDocLitBareReq.xml")));
 
         XMLStreamReader reader = message.getContent(XMLStreamReader.class);

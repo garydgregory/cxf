@@ -26,6 +26,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+
 /**
  *
  */
@@ -35,7 +37,7 @@ public class BeanWithDOM {
 
 
     public void fillWithSomeData() {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory documentBuilderFactory = SecureDocumentBuilderFactory.newInstance();
         DocumentBuilder db;
         try {
             db = documentBuilderFactory.newDocumentBuilder();

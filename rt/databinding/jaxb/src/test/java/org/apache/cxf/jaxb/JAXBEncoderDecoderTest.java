@@ -50,6 +50,8 @@ import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.ws.RequestWrapper;
 import jakarta.xml.ws.ResponseWrapper;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.extension.ExtensionManagerBus;
 import org.apache.cxf.common.jaxb.JAXBUtils;
@@ -109,7 +111,7 @@ public class JAXBEncoderDecoderTest {
         InputStream is = getClass().getResourceAsStream("resources/StringStruct.xsd");
         StreamSource schemaSource = new StreamSource(is);
         assertNotNull(schemaSource);
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory factory = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         schema = factory.newSchema(schemaSource);
         assertNotNull(schema);
     }
@@ -288,7 +290,7 @@ public class JAXBEncoderDecoderTest {
         writer.close();
 
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-        XMLInputFactory ipFactory = XMLInputFactory.newInstance();
+        XMLInputFactory ipFactory = SecureXMLInputFactory.newInstance();
         XMLEventReader reader = ipFactory.createXMLEventReader(bais);
 
         Unmarshaller um = context.createUnmarshaller();
@@ -328,7 +330,7 @@ public class JAXBEncoderDecoderTest {
         //System.out.println(baos.toString());
 
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-        XMLInputFactory ipFactory = XMLInputFactory.newInstance();
+        XMLInputFactory ipFactory = SecureXMLInputFactory.newInstance();
         XMLEventReader reader = ipFactory.createXMLEventReader(bais);
 
         Unmarshaller um = context.createUnmarshaller();
@@ -347,7 +349,7 @@ public class JAXBEncoderDecoderTest {
         MessagePartInfo part = new MessagePartInfo(elName, null);
 
         InputStream is = getClass().getResourceAsStream("resources/GreetMeDocLiteralReq.xml");
-        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLInputFactory factory = SecureXMLInputFactory.newInstance();
         XMLStreamReader reader = factory.createXMLStreamReader(is);
 
         QName[] tags = {SOAP_ENV, SOAP_BODY};
@@ -378,7 +380,7 @@ public class JAXBEncoderDecoderTest {
         MessagePartInfo part = new MessagePartInfo(elName, null);
 
         InputStream is = getClass().getResourceAsStream("resources/GreetMeDocLiteralReq.xml");
-        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLInputFactory factory = SecureXMLInputFactory.newInstance();
         FixNamespacesXMLEventReader reader = new FixNamespacesXMLEventReader(factory.createXMLEventReader(is));
 
         assertNull(reader.getUnmarshaller());
@@ -572,7 +574,7 @@ public class JAXBEncoderDecoderTest {
         //System.out.println(baos.toString());
 
         ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-        XMLInputFactory ipFactory = XMLInputFactory.newInstance();
+        XMLInputFactory ipFactory = SecureXMLInputFactory.newInstance();
         XMLEventReader reader = ipFactory.createXMLEventReader(bais);
 
         Unmarshaller um = context.createUnmarshaller();

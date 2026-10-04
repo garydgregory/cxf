@@ -29,17 +29,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import jakarta.xml.ws.Dispatch;
-import jakarta.xml.ws.Service;
-import jakarta.xml.ws.handler.MessageContext;
-import jakarta.xml.ws.soap.SOAPBinding;
-import jakarta.xml.ws.soap.SOAPFaultException;
-
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import demo.colocated.server.Server;
+import jakarta.xml.ws.Dispatch;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.handler.MessageContext;
+import jakarta.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.soap.SOAPFaultException;
 
 public final class DispatchSourceClient {
     private static final String ADDRESS = "http://localhost:9000/SoapContext/GreeterPort";
@@ -112,8 +112,7 @@ public final class DispatchSourceClient {
     }
 
     private static String decodeSource(Source source, String uri, String name) throws Exception {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         ContentHandler handler = new ContentHandler(uri, name);
         transformer.transform(source, new SAXResult(handler));

@@ -24,10 +24,10 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.ReadHeadersInterceptor;
@@ -167,7 +167,7 @@ public class RMSoapInInterceptorTest {
         message.put(Message.SCHEMA_VALIDATION_ENABLED, false);
         InputStream is = RMSoapInInterceptorTest.class.getResourceAsStream(resource);
         assertNotNull(is);
-        XMLStreamReader reader = XMLInputFactory.newInstance().createXMLStreamReader(is);
+        XMLStreamReader reader = SecureXMLInputFactory.newInstance().createXMLStreamReader(is);
         soapMessage.setContent(XMLStreamReader.class, reader);
         ReadHeadersInterceptor rji = new ReadHeadersInterceptor(BusFactory.getDefaultBus());
         rji.handleMessage(soapMessage);

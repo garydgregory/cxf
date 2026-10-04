@@ -24,11 +24,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 
 import jakarta.activation.DataHandler;
 import jakarta.mail.util.ByteArrayDataSource;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.attachment.AttachmentImpl;
@@ -154,7 +154,7 @@ public class MustUnderstandInterceptorTest extends TestBase {
             .getResourceAsStream(payloadFileName), "Application/xop+xml");
         String cid = AttachmentUtil.createContentID("http://cxf.apache.org");
         soapMessage.setContent(Attachment.class, new AttachmentImpl(cid, new DataHandler(bads)));
-        soapMessage.setContent(XMLStreamReader.class, XMLInputFactory.newInstance()
+        soapMessage.setContent(XMLStreamReader.class, SecureXMLInputFactory.newInstance()
             .createXMLStreamReader(bads.getInputStream()));
 
     }

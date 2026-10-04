@@ -44,6 +44,7 @@ import javax.xml.validation.SchemaFactory;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
 import org.apache.cxf.binding.soap.SoapVersion;
 import org.apache.cxf.binding.soap.model.SoapBindingInfo;
 import org.apache.cxf.binding.soap.model.SoapOperationInfo;
@@ -384,8 +385,7 @@ public class RMEndpoint {
     private static synchronized Schema getSchema() {
         if (rmSchema == null) {
             try {
-                SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+                SchemaFactory factory = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 javax.xml.transform.Source ad = new StreamSource(RMEndpoint.class
                                              .getResource("/schemas/wsdl/addressing.xsd")
                                              .openStream(),

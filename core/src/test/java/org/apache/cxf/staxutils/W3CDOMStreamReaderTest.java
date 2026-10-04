@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 
 import org.junit.Test;
 
@@ -54,8 +55,7 @@ public class W3CDOMStreamReaderTest {
                 "<Test xmlns=\"http://example.org/types\"><argument>foobar</argument></Test>"
                     .getBytes());
         DocumentBuilderFactory docBuilderFactory =
-                DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setNamespaceAware(true);
+                SecureDocumentBuilderFactory.newNSInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 
         MessageFactory factory = MessageFactory.newInstance();

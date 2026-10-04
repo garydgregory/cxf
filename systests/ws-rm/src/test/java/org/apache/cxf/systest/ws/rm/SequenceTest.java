@@ -40,7 +40,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
@@ -54,6 +53,8 @@ import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.Service;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.soap.Soap11;
@@ -1655,8 +1656,7 @@ public class SequenceTest extends AbstractBusClientServerTestBase {
         InputStream is =
             getClass().getResourceAsStream((oneway ? "oneway" : "twoway")
                                            + "Req" + n + ".xml");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
+        DocumentBuilderFactory factory = SecureDocumentBuilderFactory.newNSInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document newDoc = builder.parse(is);
         return new DOMSource(newDoc);
@@ -1664,9 +1664,7 @@ public class SequenceTest extends AbstractBusClientServerTestBase {
 
     private static String convertToString(DOMSource domSource)
         throws TransformerException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        Transformer transformer = transformerFactory.newTransformer();
+        Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
         StringWriter output = new StringWriter();
         transformer.transform(domSource, new StreamResult(output));
         return output.toString();

@@ -86,6 +86,7 @@ import org.w3c.dom.UserDataHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.common.util.PropertyUtils;
 import org.apache.cxf.common.util.StringUtils;
@@ -302,7 +303,7 @@ public final class StaxUtils {
     public static XMLInputFactory createXMLInputFactory(boolean nsAware) {
         XMLInputFactory factory = null;
         try {
-            factory = XMLInputFactory.newInstance();
+            factory = SecureXMLInputFactory.newInstance();
         } catch (Throwable t) {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.log(Level.FINE, "XMLInputFactory.newInstance() failed with: ", t);

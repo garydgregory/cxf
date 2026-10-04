@@ -33,6 +33,7 @@ import jakarta.xml.ws.Provider;
 import jakarta.xml.ws.Service;
 import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceProvider;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.common.logging.LogUtils;
 
 @WebServiceProvider(
@@ -49,9 +50,8 @@ public class MessageProviderWithAddressingPolicy implements Provider<Source> {
     }
 
     public Source invoke(Source request) {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         try {
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
             /*
             tfactory.setAttribute("indent-number", "2");
              */

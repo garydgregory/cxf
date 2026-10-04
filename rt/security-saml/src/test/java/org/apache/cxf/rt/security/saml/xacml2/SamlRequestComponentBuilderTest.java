@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.rt.security.saml.xacml.XACMLConstants;
 import org.apache.wss4j.common.saml.OpenSAMLUtil;
 import org.opensaml.xacml.ctx.ActionType;
@@ -55,8 +56,7 @@ public class SamlRequestComponentBuilderTest {
     }
 
     public SamlRequestComponentBuilderTest() throws ParserConfigurationException {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setNamespaceAware(true);
+        DocumentBuilderFactory docBuilderFactory = SecureDocumentBuilderFactory.newNSInstance();
         docBuilder = docBuilderFactory.newDocumentBuilder();
     }
 

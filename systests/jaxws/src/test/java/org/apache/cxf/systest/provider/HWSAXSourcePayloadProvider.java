@@ -26,7 +26,6 @@ import java.io.InputStream;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 
@@ -43,6 +42,7 @@ import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceProvider;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.helpers.FileUtils;
 import org.apache.cxf.staxutils.StaxUtils;
 
@@ -92,9 +92,7 @@ public class HWSAXSourcePayloadProvider implements Provider<SAXSource> {
         try {
 
             DOMResult domResult = new DOMResult();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            Transformer transformer = transformerFactory.newTransformer();
+            Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
             transformer.transform(request, domResult);
             Node n = domResult.getNode().getFirstChild();
 

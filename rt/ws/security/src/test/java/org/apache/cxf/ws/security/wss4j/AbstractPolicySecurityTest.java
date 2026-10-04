@@ -40,6 +40,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import jakarta.xml.soap.SOAPMessage;
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
 import org.apache.cxf.binding.Binding;
@@ -503,7 +504,7 @@ public abstract class AbstractPolicySecurityTest extends AbstractSecurityTest {
     }
 
     protected void verifyEncryptedHeader(Document originalDoc, Document processedDoc) throws Exception {
-        XPathFactory factory = XPathFactory.newInstance();
+        XPathFactory factory = SecureXPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         final NamespaceContext nsContext = this.getNamespaceContext();
         xpath.setNamespaceContext(nsContext);

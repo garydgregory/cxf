@@ -28,11 +28,12 @@ import java.util.SortedSet;
 import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 
 public class CollectionService implements CollectionServiceInterface {
 
@@ -103,7 +104,7 @@ public class CollectionService implements CollectionServiceInterface {
 
     public Collection<Document[]> returnCollectionOfDOMFragments() {
         try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            DocumentBuilder builder = SecureDocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document d1 = builder.newDocument();
             Element e = d1.createElement("Horse");
             e.setAttribute("cover", "feathers");

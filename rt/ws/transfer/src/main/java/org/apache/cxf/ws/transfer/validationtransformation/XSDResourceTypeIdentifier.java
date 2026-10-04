@@ -38,6 +38,7 @@ import org.xml.sax.SAXNotSupportedException;
 
 import jakarta.annotation.Resource;
 import jakarta.xml.ws.WebServiceContext;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.SoapVersion;
@@ -62,8 +63,7 @@ public class XSDResourceTypeIdentifier implements ResourceTypeIdentifier {
     public XSDResourceTypeIdentifier(Source xsd, ResourceTransformer resourceTransformer) {
         try {
             this.resourceTransformer = resourceTransformer;
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            schemaFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            SchemaFactory schemaFactory = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             try {
                 schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
                 schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");

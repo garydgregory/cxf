@@ -37,13 +37,13 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.validation.Schema;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.common.logging.LogUtils;
@@ -457,7 +457,7 @@ public class WSDLServiceBuilderTest {
     @Test
     public void testImport() throws Exception {
         // rewrite the schema1.xsd to import schema2.xsd with absolute path.
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        DocumentBuilder db = SecureDocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = db.parse(this.getClass().getResourceAsStream("./s1/s2/schema2.xsd"));
         Element schemaImport = null;
 

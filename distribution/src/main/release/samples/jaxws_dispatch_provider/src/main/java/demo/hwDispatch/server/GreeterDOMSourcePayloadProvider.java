@@ -26,6 +26,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.xml.secure.SecureTransformerFactory;
+
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.ws.Provider;
@@ -42,9 +44,7 @@ public class GreeterDOMSourcePayloadProvider implements Provider<DOMSource> {
         DOMSource response = new DOMSource();
         try {
             System.out.println("Incoming Client Request as a DOMSource data in PAYLOAD Mode");
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            Transformer transformer = transformerFactory.newTransformer();
+            Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
             StreamResult result = new StreamResult(System.out);
             transformer.transform(request, result);
             System.out.println("\n");

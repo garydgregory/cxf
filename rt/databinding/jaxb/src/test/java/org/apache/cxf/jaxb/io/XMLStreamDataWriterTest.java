@@ -33,6 +33,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.ValidationEventHandler;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.databinding.DataWriter;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxb.JAXBDataBinding;
@@ -65,7 +66,7 @@ public class XMLStreamDataWriterTest {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
         streamWriter = factory.createXMLStreamWriter(baos);
         assertNotNull(streamWriter);
-        inFactory = XMLInputFactory.newInstance();
+        inFactory = SecureXMLInputFactory.newInstance();
     }
 
     @After

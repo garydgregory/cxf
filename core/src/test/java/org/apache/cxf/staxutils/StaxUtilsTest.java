@@ -50,6 +50,8 @@ import org.xml.sax.InputSource;
 
 import com.ctc.wstx.stax.WstxInputFactory;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.helpers.IOUtils;
 
@@ -92,7 +94,7 @@ public class StaxUtilsTest {
     @Test
     public void testCommentNode() throws Exception {
         //CXF-3034
-        Document document = DocumentBuilderFactory.newInstance()
+        Document document = SecureDocumentBuilderFactory.newInstance()
                 .newDocumentBuilder().newDocument();
         Element root = document.createElementNS("urn:test", "root");
         root.appendChild(document.createComment("test comment"));
@@ -179,7 +181,7 @@ public class StaxUtilsTest {
 
 
         StringReader reader = new StringReader(xml);
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newInstance();
         dbf.setNamespaceAware(false);
         dbf.setValidating(false);
         Document doc = dbf.newDocumentBuilder().parse(new InputSource(reader));
@@ -279,7 +281,7 @@ public class StaxUtilsTest {
             StringWriter writer = new StringWriter();
             StreamResult result = new StreamResult(writer);
     
-            TransformerFactory tf = TransformerFactory.newInstance();
+            TransformerFactory tf = SecureTransformerFactory.newInstance();
     
             Transformer transformer = tf.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -294,8 +296,7 @@ public class StaxUtilsTest {
 
     private void cycleString(String s) throws Exception {
         StringReader reader = new StringReader(s);
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
         Document doc = dbf.newDocumentBuilder().parse(new InputSource(reader));
         String orig = StaxUtils.toString(doc.getDocumentElement());
 
@@ -317,8 +318,7 @@ public class StaxUtilsTest {
 
     @Test
     public void testRootPI() throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
         Document doc = dbf.newDocumentBuilder().parse(getTestStream("./resources/rootMaterialTest.xml"));
         StringWriter sw = new StringWriter();
         XMLStreamWriter swriter = StaxUtils.createXMLStreamWriter(sw);
@@ -332,8 +332,7 @@ public class StaxUtilsTest {
 
     @Test
     public void testRootPInoProlog() throws Exception {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
         Document doc = dbf.newDocumentBuilder().parse(getTestStream("./resources/rootMaterialTest.xml"));
         StringWriter sw = new StringWriter();
         XMLStreamWriter swriter = StaxUtils.createXMLStreamWriter(sw);
@@ -366,8 +365,7 @@ public class StaxUtilsTest {
         XMLStreamReader reader = StaxUtils.createXMLStreamReader(source);
         XMLStreamWriter writer = StaxUtils.createXMLStreamWriter(baos);
         StaxSource staxSource = new StaxSource(reader);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(staxSource, new StreamResult(baos));
@@ -385,8 +383,7 @@ public class StaxUtilsTest {
         XMLStreamReader reader = StaxUtils.createXMLStreamReader(stringReader);
         XMLStreamWriter writer = StaxUtils.createXMLStreamWriter(baos);
         StaxSource staxSource = new StaxSource(reader);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         Document doc = StaxUtils.read(getTestStream("./resources/copy.xsl"));
         Transformer transformer = transformerFactory.newTransformer(new DOMSource(doc));
         //System.out.println("Used transformer: " + transformer.getClass().getName());
@@ -400,9 +397,8 @@ public class StaxUtilsTest {
     @Test
     public void testDefaultPrefixInRootElementWithJDKInternalCopyTransformer() throws Exception {
         try {
-            final TransformerFactory trf = TransformerFactory
+            final TransformerFactory trf = SecureTransformerFactory
                 .newInstance("com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl", null);
-            trf.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             String xml = "<root xmlns=\"urn:org.apache.cxf:test\">Text</root>";
             StringReader stringReader = new StringReader(xml);
@@ -503,8 +499,7 @@ public class StaxUtilsTest {
                 + "</outer>";
 
         StringReader reader = new StringReader(xml);
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
         dbf.setValidating(false);
 
         Document doc = dbf.newDocumentBuilder().parse(new InputSource(reader));

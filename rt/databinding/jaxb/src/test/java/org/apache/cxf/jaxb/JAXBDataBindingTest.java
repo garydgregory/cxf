@@ -40,7 +40,6 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLReader;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -51,6 +50,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.BindingFactoryManager;
 import org.apache.cxf.bus.extension.ExtensionManagerBus;
@@ -331,7 +331,8 @@ public class JAXBDataBindingTest {
         assertEquals(xml, output);
 
         DataReader<XMLStreamReader> reader = binding.createReader(XMLStreamReader.class);
-        Person read = (Person) reader.read(XMLInputFactory.newFactory().createXMLStreamReader(new StringReader(xml)));
+        Person read = (Person) reader.read(SecureXMLInputFactory.newFactory()
+                .createXMLStreamReader(new StringReader(xml)));
 
         assertEquals(dutch, read.getMotherTongue());
 

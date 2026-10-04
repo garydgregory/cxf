@@ -25,7 +25,6 @@ import java.io.InputStream;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -45,6 +44,7 @@ import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceProvider;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 
 
 //The following wsdl file is used.
@@ -91,9 +91,7 @@ public class HWStreamSourcePayloadProvider implements Provider<StreamSource> {
         StreamSource response = new StreamSource();
         try {
             DOMResult domResult = new DOMResult();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            Transformer transformer = transformerFactory.newTransformer();
+            Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
             transformer.transform(request, domResult);
             Node n = domResult.getNode().getFirstChild();
 

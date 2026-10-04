@@ -69,6 +69,7 @@ import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.Provider;
 import jakarta.ws.rs.ext.RuntimeDelegate;
 import jakarta.ws.rs.ext.RuntimeDelegate.HeaderDelegate;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.bootstrap.ConfigurationBuilderImpl;
@@ -121,8 +122,7 @@ public class ResponseImplTest {
     public void testReadBufferedStaxSource() throws Exception {
         ResponseImpl r = new ResponseImpl(200);
         Source responseSource = readResponseSource(r);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMResult res = new DOMResult();
         transformer.transform(responseSource, res);

@@ -33,6 +33,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.aegis.AegisContext;
 import org.apache.cxf.aegis.AegisWriter;
 import org.apache.cxf.aegis.services.SimpleBean;
@@ -65,7 +66,7 @@ public class StandaloneWriteTest {
         testUtilities = new TestUtilities(getClass());
         testUtilities.addNamespace("feline", "urn:meow");
         xmlOutputFactory = XMLOutputFactory.newInstance();
-        xmlInputFactory = XMLInputFactory.newInstance();
+        xmlInputFactory = SecureXMLInputFactory.newInstance();
     }
 
     @Test

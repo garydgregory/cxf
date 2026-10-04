@@ -38,13 +38,13 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.helpers.DefaultHandler;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.URLDataSource;
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.io.CacheSizeExceededException;
@@ -429,7 +429,7 @@ public class AttachmentDeserializerTest {
                     + "start-info=\"text/xml\"; boundary=\"----=_Part_0_2180223.1203118300920\"");
         new AttachmentDeserializer(message).initializeAttachments();
         InputStream inputStreamWithoutAttachments = message.getContent(InputStream.class);
-        SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+        SAXParser parser = SecureSAXParserFactory.newInstance().newSAXParser();
         parser.parse(inputStreamWithoutAttachments, new DefaultHandler());
 
         inputStreamWithoutAttachments.close();

@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -37,6 +36,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import jakarta.xml.ws.Provider;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.continuations.SuspendedInvocationException;
 import org.apache.cxf.headers.Header;
@@ -285,7 +285,7 @@ public class JAXWSMethodInvokerTest {
         inMessage.setExchange(ex);
         inMessage.put(JAXWSMethodInvoker.COPY_SOAP_HEADERS_BY_FAULT, Boolean.valueOf(copyHeadersByFault));
         List<Header> headers = new ArrayList<>();
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        DocumentBuilder builder = SecureDocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document headerDoc = builder.parse(new ByteArrayInputStream("<test:testValue xmlns:test=\"test\"/>"
             .getBytes()));
         Header testHeader = new Header(TEST_HEADER_NAME, headerDoc.getDocumentElement());

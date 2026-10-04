@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -41,6 +40,7 @@ import org.w3c.dom.NodeList;
 
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.helpers.DOMUtils;
@@ -738,13 +738,7 @@ public abstract class AbstractSupportingTokenPolicyValidator extends AbstractSec
 
             // XPathFactory and XPath are not thread-safe so we must recreate them
             // each request.
-            final XPathFactory factory = XPathFactory.newInstance();
-            try {
-                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-            } catch (javax.xml.xpath.XPathFactoryConfigurationException ex) {
-                // ignore
-            }
-
+            final XPathFactory factory = SecureXPathFactory.newInstance();
             final XPath xpath = factory.newXPath();
 
             MapNamespaceContext namespaceContext = new MapNamespaceContext();

@@ -32,6 +32,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.service.model.SchemaInfo;
 import org.apache.cxf.service.model.ServiceInfo;
@@ -166,7 +167,7 @@ public class Stax2ValidationUtilsTest {
 
     private XMLStreamReader createReader(String message) throws XMLStreamException {
         Reader reader = new StringReader(message);
-        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLInputFactory factory = SecureXMLInputFactory.newInstance();
         return factory.createXMLStreamReader(reader);
     }
 

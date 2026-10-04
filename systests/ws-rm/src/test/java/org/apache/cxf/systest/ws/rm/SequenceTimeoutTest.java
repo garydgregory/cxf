@@ -36,6 +36,7 @@ import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.Endpoint;
 import jakarta.xml.ws.Service;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
@@ -205,8 +206,7 @@ public class SequenceTimeoutTest extends AbstractBusClientServerTestBase {
         InputStream is =
             getClass().getResourceAsStream("twoway"
                                            + "Req" + n + ".xml");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
+        DocumentBuilderFactory factory = SecureDocumentBuilderFactory.newNSInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document newDoc = builder.parse(is);
         return new DOMSource(newDoc);

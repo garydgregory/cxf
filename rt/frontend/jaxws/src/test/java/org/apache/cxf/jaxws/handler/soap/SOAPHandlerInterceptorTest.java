@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -53,6 +51,8 @@ import jakarta.xml.ws.handler.Handler;
 import jakarta.xml.ws.handler.MessageContext;
 import jakarta.xml.ws.handler.soap.SOAPHandler;
 import jakarta.xml.ws.handler.soap.SOAPMessageContext;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.binding.soap.Soap11;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.SoapVersion;
@@ -472,7 +472,7 @@ public class SOAPHandlerInterceptorTest {
 
     private XMLStreamReader preparemXMLStreamReader(String resouceName) throws Exception {
         InputStream is = this.getClass().getResourceAsStream(resouceName);
-        XMLStreamReader xmlReader = XMLInputFactory.newInstance().createXMLStreamReader(is);
+        XMLStreamReader xmlReader = SecureXMLInputFactory.newInstance().createXMLStreamReader(is);
 
         // skip until soap body
         if (xmlReader.nextTag() == XMLStreamConstants.START_ELEMENT) {
@@ -503,7 +503,7 @@ public class SOAPHandlerInterceptorTest {
     }
 
     private Object[] prepareSOAPHeader() throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        Document doc = SecureDocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         SoapVersion soapVersion = Soap11.getInstance();
         Element envElement = doc.createElementNS(soapVersion.getEnvelope().getNamespaceURI(),
                                                  soapVersion.getEnvelope().getLocalPart());

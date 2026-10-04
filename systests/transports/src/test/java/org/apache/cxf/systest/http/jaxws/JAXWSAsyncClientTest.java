@@ -48,6 +48,7 @@ import jakarta.xml.ws.Service;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.soap.SOAPBinding;
 import jakarta.xml.ws.soap.SOAPFaultException;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.ext.logging.LoggingInInterceptor;
 import org.apache.cxf.ext.logging.LoggingOutInterceptor;
@@ -275,7 +276,7 @@ public class JAXWSAsyncClientTest  extends AbstractBusClientServerTestBase {
     }
 
     private static void verifyResult(SOAPMessage message) throws Exception {
-        TransformerFactory tf = TransformerFactory.newInstance();
+        TransformerFactory tf = SecureTransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
         
         String output =  null;

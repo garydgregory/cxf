@@ -34,6 +34,7 @@ import org.w3c.dom.Element;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.Service;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
@@ -467,7 +468,7 @@ public class TransportBindingTest extends AbstractBusClientServerTestBase {
 
     private DOMSource createDOMRequest() throws ParserConfigurationException {
         // Creating a DOMSource Object for the request
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document requestDoc = db.newDocument();
         Element root = requestDoc.createElementNS("http://www.example.org/schema/DoubleIt", "ns2:DoubleIt");

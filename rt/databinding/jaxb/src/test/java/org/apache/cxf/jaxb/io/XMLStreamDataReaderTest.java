@@ -28,6 +28,7 @@ import javax.xml.stream.XMLStreamReader;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.ValidationEventHandler;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.databinding.DataReader;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.jaxb.JAXBDataBinding;
@@ -56,7 +57,7 @@ public class XMLStreamDataReaderTest {
 
     @Before
     public void setUp() throws Exception {
-        factory = XMLInputFactory.newInstance();
+        factory = SecureXMLInputFactory.newInstance();
     }
 
     @After

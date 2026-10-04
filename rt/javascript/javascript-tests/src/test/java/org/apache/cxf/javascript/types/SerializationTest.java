@@ -32,6 +32,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.databinding.DataBinding;
 import org.apache.cxf.databinding.DataReader;
@@ -71,7 +72,7 @@ public class SerializationTest extends AbstractCXFSpringTest {
     public SerializationTest() throws Exception {
         testUtilities = new JavascriptTestUtilities(getClass());
         testUtilities.addDefaultNamespaces();
-        xmlInputFactory = XMLInputFactory.newInstance();
+        xmlInputFactory = SecureXMLInputFactory.newInstance();
         xmlOutputFactory = XMLOutputFactory.newInstance();
     }
 

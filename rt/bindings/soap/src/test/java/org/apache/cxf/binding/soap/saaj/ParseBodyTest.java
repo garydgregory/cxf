@@ -35,6 +35,7 @@ import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPConstants;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.helpers.DOMUtils.NullResolver;
 import org.apache.cxf.message.Exchange;
@@ -115,12 +116,11 @@ public class ParseBodyTest {
         // System.out.println("OUTPUT: " + new String(docbytes));
         XMLStreamReader reader = StaxUtils.createXMLStreamReader(new ByteArrayInputStream(docbytes));
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
 
         dbf.setValidating(false);
         dbf.setIgnoringComments(false);
         dbf.setIgnoringElementContentWhitespace(true);
-        dbf.setNamespaceAware(true);
 
         DocumentBuilder db = dbf.newDocumentBuilder();
         db.setEntityResolver(new NullResolver());

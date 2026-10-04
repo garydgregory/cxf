@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.aegis.AbstractAegisTest;
 import org.apache.cxf.aegis.databinding.AegisDatabinding;
 import org.apache.cxf.aegis.inheritance.Employee;
@@ -53,7 +54,7 @@ public class OverrideTypeTest extends AbstractAegisTest {
         InputStream employeeBytes =
             testUtilities.getResourceAsStream("/org/apache/cxf/aegis/override/employee.xml");
 
-        XMLInputFactory readerFactory = XMLInputFactory.newInstance();
+        XMLInputFactory readerFactory = SecureXMLInputFactory.newInstance();
         XMLStreamReader reader = readerFactory.createXMLStreamReader(employeeBytes);
         Object objectRead = dataReader.read(reader);
         assertNotNull(objectRead);

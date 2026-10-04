@@ -54,6 +54,7 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.common.util.ReflectionUtil;
 import org.apache.cxf.common.util.StringUtils;
@@ -142,9 +143,7 @@ public final class DOMUtils {
     }
 
     private static DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
-        DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
-        f.setNamespaceAware(true);
-        f.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        DocumentBuilderFactory f = SecureDocumentBuilderFactory.newNSInstance();
         f.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         return f.newDocumentBuilder();
     }

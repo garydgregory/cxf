@@ -59,6 +59,7 @@ import jakarta.xml.ws.handler.MessageContext;
 import jakarta.xml.ws.handler.PortInfo;
 import jakarta.xml.ws.handler.soap.SOAPMessageContext;
 import jakarta.xml.ws.soap.SOAPFaultException;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.common.util.PackageUtils;
 import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.testutil.common.AbstractBusClientServerTestBase;
@@ -1018,8 +1019,7 @@ public class HandlerInvocationTest extends AbstractBusClientServerTestBase {
                 throws TransformerException {
                 StringWriter stringWriter = new StringWriter();
                 StreamResult streamResult = new StreamResult(stringWriter);
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                TransformerFactory transformerFactory = SecureTransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer();
                 transformer.setOutputProperty(OutputKeys.INDENT, "no");
                 transformer.setOutputProperty(

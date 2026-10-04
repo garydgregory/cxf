@@ -38,6 +38,9 @@ import org.w3c.dom.Document;
 
 import com.ctc.wstx.msv.W3CSchemaFactory;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Exchange;
@@ -132,8 +135,7 @@ public class XMLStreamDataReaderTest {
     private void testValidate(String schemaPath, String xmlPath, boolean exceptionExpected) throws Exception {
 
         //create schema
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
+        DocumentBuilderFactory documentBuilderFactory = SecureDocumentBuilderFactory.newNSInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         URL schemaURI = getClass().getResource(schemaPath);
         Document wsdl = documentBuilder.parse(schemaURI.openStream());
@@ -144,7 +146,7 @@ public class XMLStreamDataReaderTest {
 
         XMLValidationSchema schemaw3c =
                 W3CSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA).createSchema(schemaURI);
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory schemaFactory = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(schemaURI);
 
         XMLStreamDataReader reader = new XMLStreamDataReader();
@@ -169,7 +171,7 @@ public class XMLStreamDataReaderTest {
         msg.setContent(InputStream.class, testIS);
         reader.setProperty(Message.class.getName(), msg);
 
-        XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
+        XMLInputFactory xmlFactory = SecureXMLInputFactory.newInstance();
         XMLStreamReader2 xmlStreamReader = (XMLStreamReader2) xmlFactory.createXMLStreamReader(testIS, "utf-8");
 
         MessageInfo messageInfo = new MessageInfo(null,

@@ -35,6 +35,7 @@ import jakarta.xml.ws.ServiceMode;
 import jakarta.xml.ws.WebServiceContext;
 import jakarta.xml.ws.WebServiceProvider;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 
 //The following wsdl file is used.
 //wsdlLocation = "/trunk/testutils/src/main/resources/wsdl/hello_world_rpc_lit.wsdl"
@@ -66,8 +67,7 @@ public class HWDOMSourcePayloadXMLBindingProvider implements
         DOMSource response = null;
 
         try {
-            factory = DocumentBuilderFactory.newInstance();
-            factory.setNamespaceAware(true);
+            factory = SecureDocumentBuilderFactory.newNSInstance();
             builder = factory.newDocumentBuilder();
             InputStream greetMeResponse = getClass().getResourceAsStream(
                     "resources/XML_GreetMeDocLiteralResp.xml");

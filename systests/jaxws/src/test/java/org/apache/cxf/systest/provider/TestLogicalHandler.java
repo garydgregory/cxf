@@ -26,7 +26,6 @@ import java.io.Writer;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -34,6 +33,7 @@ import jakarta.xml.ws.LogicalMessage;
 import jakarta.xml.ws.handler.LogicalHandler;
 import jakarta.xml.ws.handler.LogicalMessageContext;
 import jakarta.xml.ws.handler.MessageContext;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 
 
 public class TestLogicalHandler implements LogicalHandler<LogicalMessageContext> {
@@ -71,9 +71,7 @@ public class TestLogicalHandler implements LogicalHandler<LogicalMessageContext>
     }
 
     public static String getSourceAsString(Source s) throws Exception {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        Transformer transformer = transformerFactory.newTransformer();
+        Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         Writer out = new StringWriter();

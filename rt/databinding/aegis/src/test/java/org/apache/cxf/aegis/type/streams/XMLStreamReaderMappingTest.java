@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.aegis.AbstractAegisTest;
 import org.apache.cxf.aegis.AegisContext;
 import org.apache.cxf.aegis.AegisReader;
@@ -65,7 +66,7 @@ public class XMLStreamReaderMappingTest extends AbstractAegisTest {
     public void testReadStream() throws Exception {
         // Test reading
         InputStream is = getResourceAsStream("bean1.xml");
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        XMLInputFactory inputFactory = SecureXMLInputFactory.newInstance();
         XMLStreamReader inputReader = inputFactory.createXMLStreamReader(is);
         AegisReader<XMLStreamReader> reader = context.createXMLStreamReader();
         Object what = reader.read(inputReader);

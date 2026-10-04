@@ -33,6 +33,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import org.apache.commons.xml.secure.SecureXMLInputFactory;
 import org.apache.cxf.staxutils.StaxUtils;
 import org.apache.cxf.tools.common.ToolTestBase;
 import org.apache.cxf.tools.corba.common.ToolCorbaConstants;
@@ -142,7 +143,7 @@ public class IDLToWSDLTest extends ToolTestBase {
         try (InputStream actualFileStream = new FileInputStream(actualWsdlFile);
             InputStream expectedFileStream = new FileInputStream(expectedWsdlFile)) {
 
-            XMLInputFactory factory = XMLInputFactory.newInstance();
+            XMLInputFactory factory = SecureXMLInputFactory.newInstance();
 
             XMLStreamReader actualStream = factory.createXMLStreamReader(actualFileStream);
             XMLStreamReader expectedStream = factory.createXMLStreamReader(expectedFileStream);

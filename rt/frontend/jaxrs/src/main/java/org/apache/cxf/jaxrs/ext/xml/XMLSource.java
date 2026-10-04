@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -36,7 +35,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathFactoryConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,6 +44,7 @@ import org.w3c.dom.NodeList;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.common.jaxb.JAXBUtils;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.interceptor.Fault;
@@ -281,12 +280,7 @@ public class XMLSource {
 
 
     private Object evaluate(String expression, Map<String, String> namespaces, QName type) {
-        XPathFactory factory = XPathFactory.newInstance();
-        try {
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        } catch (XPathFactoryConfigurationException e) {
-            throw new RuntimeException(e);
-        }
+        XPathFactory factory = SecureXPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         xpath.setNamespaceContext(new NamespaceContextImpl(namespaces));
         boolean releaseDoc = false;

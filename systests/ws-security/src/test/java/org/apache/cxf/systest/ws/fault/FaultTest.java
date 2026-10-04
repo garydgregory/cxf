@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.Service;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
@@ -216,8 +217,7 @@ public class FaultTest extends AbstractBusClientServerTestBase {
             service.createDispatch(portQName, DOMSource.class, Service.Mode.PAYLOAD);
 
         // Creating a DOMSource Object for the request
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
+        DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newNSInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document requestDoc = db.newDocument();
         Element root = requestDoc.createElementNS("http://www.example.org/schema/DoubleIt", "ns2:DoubleIt");

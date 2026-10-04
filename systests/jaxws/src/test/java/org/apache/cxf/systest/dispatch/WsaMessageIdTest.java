@@ -35,6 +35,7 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.UnmarshalException;
 import jakarta.xml.bind.Unmarshaller;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
 import org.apache.cxf.ws.addressing.AttributedURIType;
 
 import org.junit.Test;
@@ -104,7 +105,7 @@ public class WsaMessageIdTest {
         // Create unmarshaller
         JAXBContext jc = JAXBContext.newInstance("org.apache.cxf.ws.addressing");
         Unmarshaller unmarshaller = jc.createUnmarshaller();
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory sf = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL wsAddrXsd = getClass().getResource("/schemas/wsdl/ws-addr.xsd");
         assertNotNull(wsAddrXsd);
 

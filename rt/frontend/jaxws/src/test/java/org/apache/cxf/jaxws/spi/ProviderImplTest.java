@@ -29,7 +29,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
@@ -43,6 +42,7 @@ import jakarta.xml.ws.WebServiceFeature;
 import jakarta.xml.ws.spi.Invoker;
 import jakarta.xml.ws.spi.ServiceDelegate;
 import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
@@ -65,7 +65,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 
 
 public class ProviderImplTest extends AbstractCXFTest {
@@ -212,7 +211,7 @@ public class ProviderImplTest extends AbstractCXFTest {
     @org.junit.Test
     public void testCreateW3CEprMetadataMetadataOnly() throws Exception {
         ProviderImpl impl = new ProviderImpl();
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        DocumentBuilder builder = SecureDocumentBuilderFactory.newInstance().newDocumentBuilder();
         Element element = builder.newDocument().createElement("customMetadata");
         List<Element> metadata = new ArrayList<>();
         metadata.add(element);

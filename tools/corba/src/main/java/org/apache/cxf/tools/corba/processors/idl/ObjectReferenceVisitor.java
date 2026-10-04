@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.wsdl.Binding;
 import javax.wsdl.Definition;
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +35,7 @@ import org.w3c.dom.Element;
 
 import antlr.collections.AST;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.binding.corba.wsdl.BindingType;
 import org.apache.cxf.binding.corba.wsdl.CorbaType;
 import org.apache.cxf.binding.corba.wsdl.Object;
@@ -272,8 +272,7 @@ public class ObjectReferenceVisitor extends VisitorBase {
             XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
             XmlSchemaAppInfo appInfo = new XmlSchemaAppInfo();
             try {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+                DocumentBuilderFactory dbf = SecureDocumentBuilderFactory.newInstance();
                 dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 
                 DocumentBuilder db = dbf.newDocumentBuilder();

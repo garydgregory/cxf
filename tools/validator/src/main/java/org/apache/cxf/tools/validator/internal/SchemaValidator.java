@@ -54,6 +54,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXParseException;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
+import org.apache.commons.xml.secure.SecureSchemaFactory;
 import org.apache.cxf.common.i18n.Message;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.common.util.URIParserUtil;
@@ -104,10 +107,8 @@ public class SchemaValidator extends AbstractDefinitionValidator {
     }
 
     public boolean validate(String wsdlsource, String[] schemas) throws ToolException {
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory docFactory = SecureDocumentBuilderFactory.newNSInstance();
         try {
-            docFactory.setNamespaceAware(true);
-            docFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
             docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             docBuilder = docFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -124,8 +125,7 @@ public class SchemaValidator extends AbstractDefinitionValidator {
     private Schema createSchema(List<InputSource> xsdsInJar, String[] schemas)
         throws SAXException, IOException {
 
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        sf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        SchemaFactory sf = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         
         try {
             // The 'http://javax.xml.XMLConstants/property/accessExternalSchema' is not supported by Xerces
@@ -163,8 +163,7 @@ public class SchemaValidator extends AbstractDefinitionValidator {
 
     private Schema createSchema(String[] schemas) throws SAXException, IOException {
 
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        sf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        SchemaFactory sf = SecureSchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
         SchemaResourceResolver resourceResolver = new SchemaResourceResolver();
 
@@ -187,9 +186,7 @@ public class SchemaValidator extends AbstractDefinitionValidator {
     public boolean validate(InputSource wsdlsource, String[] schemas) throws ToolException {
         Schema schema;
         try {
-            SAXParserFactory saxFactory = SAXParserFactory.newInstance();
-            saxFactory.setFeature("http://xml.org/sax/features/namespaces", true);
-            saxFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            SAXParserFactory saxFactory = SecureSAXParserFactory.newNSInstance();
             saxFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             saxParser = saxFactory.newSAXParser();
 

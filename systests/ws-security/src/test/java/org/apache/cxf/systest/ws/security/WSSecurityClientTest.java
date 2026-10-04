@@ -30,7 +30,6 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -44,6 +43,7 @@ import jakarta.xml.ws.http.HTTPBinding;
 import jakarta.xml.ws.soap.AddressingFeature;
 import jakarta.xml.ws.soap.SOAPBinding;
 import jakarta.xml.ws.soap.SOAPFaultException;
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.bus.spring.SpringBusFactory;
@@ -409,9 +409,7 @@ public class WSSecurityClientTest extends AbstractBusClientServerTestBase {
     private static String source2String(Source source) throws Exception {
         final java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
         final StreamResult sr = new StreamResult(bos);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        Transformer transformer = transformerFactory.newTransformer();
+        Transformer transformer = SecureTransformerFactory.newInstance().newTransformer();
         final java.util.Properties oprops = new java.util.Properties();
         oprops.put(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperties(oprops);

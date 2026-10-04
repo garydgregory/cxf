@@ -32,7 +32,6 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.stream.XMLStreamException;
@@ -59,6 +58,7 @@ import com.sun.msv.reader.xmlschema.SchemaState;
 import com.sun.msv.reader.xmlschema.WSDLGrammarReaderController;
 import com.sun.msv.reader.xmlschema.XMLSchemaReader;
 
+import org.apache.commons.xml.secure.SecureSAXParserFactory;
 import org.apache.cxf.common.logging.LogUtils;
 import org.codehaus.stax2.validation.XMLValidationSchema;
 
@@ -147,19 +147,13 @@ public class W3CMultiSchemaFactory {
                 embeddedSources.put(source.getKey(), new EmbeddedSchema(source.getValue().getSystemId(), el));
             }
         }
-        parserFactory = SAXParserFactory.newInstance();
-        try {
-            parserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        } catch (SAXNotRecognizedException | SAXNotSupportedException | ParserConfigurationException e) {
-            LOG.log(Level.WARNING, "The property '" + XMLConstants.FEATURE_SECURE_PROCESSING + "', is not supported.");
-        }
+        parserFactory = SecureSAXParserFactory.newNSInstance();
         try {
             parserFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         } catch (SAXNotRecognizedException | SAXNotSupportedException | ParserConfigurationException e) {
             LOG.log(Level.WARNING, "The property 'http://apache.org/xml/features/disallow-doctype-decl'"
                     + " is not supported.");
         }
-        parserFactory.setNamespaceAware(true);
 
         WSDLGrammarReaderController ctrl = new WSDLGrammarReaderController(null, baseURI, embeddedSources);
         xmlSchemaReader = new RecursiveAllowedXMLSchemaReader(ctrl, parserFactory);

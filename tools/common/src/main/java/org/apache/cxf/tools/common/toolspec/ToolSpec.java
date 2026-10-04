@@ -28,10 +28,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -42,6 +40,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import org.apache.commons.xml.secure.SecureTransformerFactory;
 import org.apache.cxf.common.i18n.Message;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.helpers.DOMUtils;
@@ -211,9 +210,7 @@ public class ToolSpec {
     }
 
     public void transform(InputStream stylesheet, OutputStream out) throws TransformerException {
-        TransformerFactory factory = TransformerFactory.newInstance();
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        Transformer trans = factory.newTransformer(new StreamSource(stylesheet));
+        Transformer trans = SecureTransformerFactory.newInstance().newTransformer(new StreamSource(stylesheet));
         trans.transform(new DOMSource(doc), new StreamResult(out));
     }
 

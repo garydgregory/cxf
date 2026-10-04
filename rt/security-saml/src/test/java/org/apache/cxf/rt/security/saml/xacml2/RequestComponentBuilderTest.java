@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import net.shibboleth.shared.xml.DOMTypeSupport;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.rt.security.saml.xacml.XACMLConstants;
 import org.apache.wss4j.common.saml.OpenSAMLUtil;
 import org.opensaml.xacml.ctx.ActionType;
@@ -56,8 +57,7 @@ public class RequestComponentBuilderTest {
     }
 
     public RequestComponentBuilderTest() throws ParserConfigurationException {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        docBuilderFactory.setNamespaceAware(true);
+        DocumentBuilderFactory docBuilderFactory = SecureDocumentBuilderFactory.newNSInstance();
         docBuilder = docBuilderFactory.newDocumentBuilder();
     }
 

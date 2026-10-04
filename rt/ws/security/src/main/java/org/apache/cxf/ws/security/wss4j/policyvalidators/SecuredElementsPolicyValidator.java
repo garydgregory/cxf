@@ -25,12 +25,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Element;
 
+import org.apache.commons.xml.secure.SecureXPathFactory;
 import org.apache.cxf.helpers.MapNamespaceContext;
 import org.apache.cxf.ws.policy.AssertionInfo;
 import org.apache.cxf.ws.security.wss4j.CryptoCoverageUtil;
@@ -77,12 +77,7 @@ public class SecuredElementsPolicyValidator implements SecurityPolicyValidator {
 
         // XPathFactory and XPath are not thread-safe so we must recreate them
         // each request.
-        final XPathFactory factory = XPathFactory.newInstance();
-        try {
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-        } catch (javax.xml.xpath.XPathFactoryConfigurationException ex) {
-            // ignore
-        }
+        final XPathFactory factory = SecureXPathFactory.newInstance();
         final XPath xpath = factory.newXPath();
 
         Element soapEnvelope = parameters.getSoapHeader() != null

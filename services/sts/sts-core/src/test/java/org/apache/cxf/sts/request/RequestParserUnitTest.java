@@ -33,6 +33,7 @@ import org.xml.sax.InputSource;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Unmarshaller;
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.cxf.jaxws.context.WrappedMessageContext;
 import org.apache.cxf.message.MessageImpl;
 import org.apache.cxf.sts.common.PasswordCallbackHandler;
@@ -208,8 +209,7 @@ public class RequestParserUnitTest {
     }
 
     private Document parseStringToElement(String str) throws Exception {
-        DocumentBuilderFactory builderFac = DocumentBuilderFactory.newInstance();
-        builderFac.setNamespaceAware(true);
+        DocumentBuilderFactory builderFac = SecureDocumentBuilderFactory.newNSInstance();
         builderFac.setValidating(false);
         builderFac.setIgnoringElementContentWhitespace(true);
         DocumentBuilder docBuilder = builderFac.newDocumentBuilder();

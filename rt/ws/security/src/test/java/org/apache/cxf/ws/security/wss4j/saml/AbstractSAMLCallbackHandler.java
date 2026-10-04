@@ -32,6 +32,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import org.apache.commons.xml.secure.SecureDocumentBuilderFactory;
 import org.apache.wss4j.common.WSS4JConstants;
 import org.apache.wss4j.common.saml.SAMLCallback;
 import org.apache.wss4j.common.saml.bean.ActionBean;
@@ -164,8 +165,7 @@ public abstract class AbstractSAMLCallbackHandler implements CallbackHandler {
         } else if (statement == Statement.ATTR) {
             // Build a new Document
             DocumentBuilderFactory docBuilderFactory =
-                DocumentBuilderFactory.newInstance();
-            docBuilderFactory.setNamespaceAware(true);
+                SecureDocumentBuilderFactory.newNSInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
 
